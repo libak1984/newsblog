@@ -1,7 +1,7 @@
 /**
  * @file profile.js
  * @class profileSchema
- * @description This class contains the properites of profile schema
+ * @description Define the properites of profile schema
  */
 
 const mongoose = require('mongoose');

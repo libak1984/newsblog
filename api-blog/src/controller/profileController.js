@@ -4,7 +4,6 @@
  * @description Class to define endpoints for profile api
  */
 
-const logger = require('../common/log');
 const profile = require('../businessLogic/profile');
 
 
