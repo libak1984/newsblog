@@ -4,8 +4,22 @@
   "description": "Blag service",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon --watch src src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kabil",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.8.12",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "mongoose": "^5.4.22"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10",
+    "dotenv": "^7.0.0"
+  }
 }
