@@ -8,7 +8,7 @@ const logger = require('../common/log');
 const response = require('../common/response');
 const jwt = require('../common/jwt');
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET_KEY;
 
 module.exports = {
     /**

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app="App" ng-controller="appCtrl">
+
+<head>
+  <meta charset="utf-8">
+  <base href="/">
+  <title>Dubai Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="/assets/css/default.css" type="text/css">
+  <link rel="stylesheet" href="/assets/css/layout.css">
+  <link rel="stylesheet" href="/assets/css/media-queries.css">
+  <link rel="stylesheet" href="/assets/css/w3.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <script src="/assets/js/app.js"></script>
+</head>
+
+<body>
+  <!-- Start Header-->
+  <header id="top">
+
+    <div class="row">
+
+      <div class="header-content twelve columns">
+
+        <h1 id="logo-text"><a href="/index.html" title=""><img src="assets/images/blog1.png" width="150px" /></a></h1>
+
+
+      </div>
+
+    </div>
+
+    <nav id="nav-wrap">
+      <div class="row" class="nav">
+        <ul id="nav" class="nav" style="float: right; padding-right: 10px;">
+          <li ng-if="!isLoggedIn"><a href="#" ng-click="showLogin()" class="myaccount">Login</a>
+            <div class="w3-modal" ng-if="showLoginModal" style="display: block">
+              <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+                <div class="w3-center"><br>
+                  <span ng-click="closeLoginModal()" class="w3-button w3-xlarge w3-hover-red w3-display-topright"
+                    title="Close Modal">&times;</span>
+                </div>
+
+                <form class="w3-container" name="loginForm" ng-controller="appCtrl">
+                  <div class="w3-section">
+                    <div ng-class="messageClass">
+                      {{message}}
+                    </div>
+                    <label><b>Email Address</b></label>
+                    <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Email Address"
+                      name="emailaddress" ng-model="emailaddress" required>
+                    <label><b>Password</b></label>
+                    <input class="w3-input w3-border" type="password" placeholder="Enter Password" name="password"
+                      ng-model="password" required>
+                    <button class="w3-button w3-block w3-green w3-section w3-padding" ng-click="login()"
+                      ng-disabled="loginForm.$invalid">Login</button>
+                  </div>
+                </form>
+              </div>
+          </li>
+          <li ng-if="!isLoggedIn"><a href="#" ng-click="showSignUp()" class="myaccount">Signup</a>
+            <div class="w3-modal" ng-if="showSignUpModal" style="display: block">
+              <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+                <div class="w3-center"><br>
+                  <span ng-click="closeSignUpModal()" class="w3-button w3-xlarge w3-hover-red w3-display-topright"
+                    title="Close Modal">&times;</span>
+                </div>
+
+                <form class="w3-container" name="userForm" ng-controller="appCtrl">
+                  <div class="w3-section">
+                    <div ng-class="messageClass">
+                      {{message}}
+                    </div>
+                    <label><b>Firstname</b></label>
+                    <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Firstname"
+                      name="firstname" ng-model="firstname" required>
+                    <label><b>Lastname</b></label>
+                    <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Lastname"
+                      name="lastname" ng-model="lastname" required>
+                    <label><b>Email Address</b></label>
+                    <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Email Address"
+                      name="emailaddress" ng-model="emailaddress" required>
+                    <label><b>Password</b></label>
+                    <input class="w3-input w3-border" type="password" placeholder="Enter Password" name="password"
+                      ng-model="password" required>
+                    <button class="w3-button w3-block w3-green w3-section w3-padding" ng-click="signUp()"
+                      ng-disabled="userForm.$invalid">Signup</button>
+                  </div>
+                </form>
+              </div>
+          </li>
+          <li class="has-children myaccount" ng-if="isLoggedIn"><a href="#">My Account</a>
+            <ul>
+              <li><a href="#" ng-click="publishBlock()">Publish Post</a></li>
+              <li><a href="#">Reset Password</a></li>
+              <li><a href="#" ng-click="logout()">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+  <!--End Header-->
+  <!--Start Content-->
+  <div id="content-wrap">
+
+    <div class="row">
+      <div class="_info" ng-if="!isBlogsAvailable">
+        <i class="fa fa-info-circle"></i>
+        Blogs are not available. Be the first post on my blog.
+      </div>
+      <!-- Start publish post-->
+      <div class="respond" ng-if="isPublishBlock">
+        <form name="publishForm" ng-controller="appCtrl">
+          <fieldset>
+
+            <div ng-class="messageClass">
+              {{message}}
+            </div>
+            <div class="group">
+              <label for="pTitle">Title <span class="required">*</span></label>
+              <input name="pTitle" type="text" size="35" placeholder="Enter title" ng-model="pTitle" required />
+            </div>
+
+            <div class="group">
+              <label for="cEmail">Category <span class="required">*</span></label>
+              <select name="singleSelect" ng-model="category" required>
+                <option value="" selected disabled hidden>Select category</option>
+                <option value="Travel">Travel</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Sports">Sports</option>
+                <option value="Activites">Activites</option>
+                <option value="Technology">Technology</option>
+                <option value="General">General</option>
+              </select>
+            </div>
+
+            <div class="message group">
+              <label for="cMessage">Message <span class="required">*</span></label>
+              <textarea name="cMessage" id="cMessage" rows="10" cols="80" ng-model="pContent" required></textarea>
+            </div>
+
+            <button class="w3-button w3-block w3-green w3-section w3-padding" style="float: right;width: 100px"
+              ng-disabled="publishForm.$invalid" ng-click="publish()">Publish</button>
+
+            <!--Progress bar-->
+            <div class="w3-modal" style="display: block;text-align: center;" ng-if="showProgressBar">
+              <img src="/assets/images/progress.gif" width="100px" />
+            </div>
+
+          </fieldset>
+        </form>
+
+      </div>
+
+      <!--End publish post-->
+
+      <!-- Start Main content-->
+
+
+
+      <div id="main" class="eight columns">
+        <article class="entry" ng-repeat="blog in blogs">
+
+          <header class="entry-header">
+
+            <h2 class="entry-title">
+              {{blog.title}}
+            </h2>
+
+            <div class="entry-meta">
+              <ul>
+                <li>{{blog.posted_at}}</li>
+                <span class="meta-sep">&bull;</span>
+                <li>{{blog.category}}</li>
+                <span class="meta-sep">&bull;</span>
+                <li>{{blog.posted_by}}</li>
+              </ul>
+            </div>
+
+          </header>
+
+          <div class="entry-content">
+            <p>{{blog.content}}</p>
+          </div>
+
+        </article>
+      </div>
+      <!--End Main Content-->
+      <!--Start side bar-->
+      <div id="sidebar" class="four columns">
+        <div class="widget widget_search">
+          <h3>Search</h3>
+          <div>
+
+            <input type="text" class="text-search" placeholder="Search here..." name="searchTerm" ng-model="searchTerm">
+            <a href="#" class="submit-search" ng-click="searchBlog()" />
+          </div>
+        </div>
+        <div class="widget widget_categories group">
+          <h3 class="w3-block w3-green w3-section w3-padding">Categories</h3>
+          <ul>
+            <li><a href="#" ng-click="listBlogByCategory('Travel')">Travel</a></li>
+            <li><a href="#" ng-click="listBlogByCategory('Shopping')">Shopping</a></li>
+            <li><a href="#" ng-click="listBlogByCategory('Sports')">Sports</a></li>
+            <li><a href="#" ng-click="listBlogByCategory('Activites')">Activites</a></li>
+            <li><a href="#" ng-click="listBlogByCategory('Technology')">Technology</a></li>
+            <li><a href="#" ng-click="listBlogByCategory('General')">General</a></li>
+            <li><a href="#" ng-click="listBlogByCategory('All')">All</a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- End side bar-->
+    </div>
+  </div>
+  <!--End Content-->
+  <!--Start Footer-->
+  <footer>
+
+    <div class="row">
+
+      <div class="twelve columns">
+        <ul class="social-links">
+          <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+          <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+          <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+          <li><a href="#"><i class="fa fa-github-square"></i></a></li>
+          <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+          <li><a href="#"><i class="fa fa-flickr"></i></a></li>
+          <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
+        </ul>
+      </div>
+
+      <div class="twelve columns info">
+
+        <h3>About This Blog</h3>
+
+        <p>Lorem ipsum Sed nulla deserunt voluptate elit occaecat culpa cupidatat sit irure sint
+          sint incididunt cupidatat esse in Ut sed commodo tempor consequat culpa fugiat incididunt.
+        </p>
+
+        <p>Lorem ipsum Sed nulla deserunt voluptate elit occaecat culpa cupidatat sit irure sint
+          sint incididunt cupidatat esse in Ut sed commodo tempor consequat culpa fugiat incididunt.</p>
+
+      </div>
+
+
+
+    </div> <!-- End row -->
+
+    <div id="go-top"><a class="smoothscroll" title="Back to Top" href="#top"><i class="fa fa-chevron-up"></i></a></div>
+
+  </footer>
+  <!-- End Footer-->
+</body>
+
+</html>

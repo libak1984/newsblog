@@ -8,7 +8,7 @@ const response = require('../common/response');
 const jwt = require('../common/jwt');
 
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET_KEY ;
 
 module.exports = {
     /**
@@ -47,7 +47,6 @@ module.exports = {
         try {
 
             let user;
-            console.log(params);
             user = await profileSchema.find({ emailaddress: params.emailaddress, password: params.password });
 
             if (user && user.length > 0) {
@@ -58,7 +57,8 @@ module.exports = {
 
                 payload = {
                     token: token,
-                    firstname: user[0].firstname
+                    firstname: user[0].firstname,
+                    emailaddress: user[0].emailaddress
                 }
 
                 return response.success('success', 200, 'USR_VALIDATION', 'OK', payload);
