@@ -120,10 +120,28 @@
         };
 
         $scope.searchBlog = function () {
-            listBlogApiCall({
-                $text: { $search: $scope.searchTerm },
-            });
 
+            let searchParam = {
+                searchTerm: $scope.searchTerm
+            }
+
+            $http.post(`${baseUrl}/blog/search`, searchParam).then(function (response) {
+                
+                $scope.searchTerm = '';
+
+                if (response.data.statuscode === 200 && response.data.data.payload.data.length >0) {
+                    $scope.blogs = [];
+                    response.data.data.payload.data.forEach(element => {
+                        $scope.blogs.push(element._source)
+                    });
+                  
+                    $scope.isBlogsAvailable = true;
+                } else {
+                    $scope.isBlogsAvailable = false;
+                    $scope.blogs = [];
+                }
+
+            });
         };
 
         function listBlogApiCall(inputParam) {

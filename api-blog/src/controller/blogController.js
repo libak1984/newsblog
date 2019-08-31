@@ -5,6 +5,7 @@
  */
 
 const blog = require('../businessLogic/blog');
+const elastic = require('../businessLogic/elastic');
 
 
 module.exports = (router) => {
@@ -46,7 +47,7 @@ module.exports = (router) => {
     })
 
     /**
-     * @function delete
+     * @function list
      * @method POST
      * @description List all blog     
      * @param {req} router 
@@ -54,6 +55,18 @@ module.exports = (router) => {
      */
     router.post('/blog/list', async (req, res, next) => {
         let response = await blog.list(req.body);
+        res.json(response);
+    })
+
+    /**
+     * @function search
+     * @method POST
+     * @description Search keywords from elastic   
+     * @param {req} router 
+     * @returns 
+     */
+    router.post('/blog/search', async (req, res, next) => {
+        let response = await elastic.searchBlog(req.body);
         res.json(response);
     })
 

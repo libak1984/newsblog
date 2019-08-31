@@ -10,6 +10,8 @@ const jwt = require('../common/jwt');
 
 const JWT_SECRET = process.env.JWT_SECRET_KEY;
 
+const elastic = require('./elastic');
+
 module.exports = {
     /**
      * @function create
@@ -21,8 +23,8 @@ module.exports = {
         try {
 
             const blogData = new blogSchema(params);
-            await blogData.save();
-
+            let resp = await blogData.save();
+            elastic.createIndex(resp);
             return response.success('success', 200, 'CREATE_BLOG', 'Created successfully');
 
         } catch (e) {
