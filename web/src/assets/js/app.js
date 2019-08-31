@@ -15,6 +15,7 @@
 
         $scope.logout = function () {
             window.localStorage.removeItem('blogUser');
+            window.localStorage.removeItem('blogEmail');
             $scope.isLoggedIn = false;
             window.location.reload();
         };
@@ -37,6 +38,9 @@
 
 
         $scope.login = function () {
+
+            $scope.showProgressBar = true;
+
             let loginData = {
                 emailaddress: $scope.emailaddress,
                 password: $scope.password
@@ -46,11 +50,14 @@
                 if (response.data.statuscode === 200) {
                     window.localStorage.setItem('blogUser', response.data.data.payload.data.firstname);
                     window.localStorage.setItem('blogEmail', response.data.data.payload.data.emailaddress);
+                    $scope.showProgressBar = false;
                     window.location.reload();
                 } else {
                     $scope.messageClass = '_error';
                     $scope.message = response.data.error.message;
+                    $scope.showProgressBar = false;
                 }
+               
             });
         };
 
@@ -112,6 +119,7 @@
         };
 
         $scope.listBlogByCategory = function (category) {
+            $scope.showProgressBar = true;
             if (category === 'All') {
                 listBlogApiCall({});
             } else {
@@ -124,23 +132,23 @@
             let searchParam = {
                 searchTerm: $scope.searchTerm
             }
-
+            $scope.showProgressBar = true;
             $http.post(`${baseUrl}/blog/search`, searchParam).then(function (response) {
-                
+
                 $scope.searchTerm = '';
 
-                if (response.data.statuscode === 200 && response.data.data.payload.data.length >0) {
+                if (response.data.statuscode === 200 && response.data.data.payload.data.length > 0) {
                     $scope.blogs = [];
                     response.data.data.payload.data.forEach(element => {
                         $scope.blogs.push(element._source)
                     });
-                  
+
                     $scope.isBlogsAvailable = true;
                 } else {
                     $scope.isBlogsAvailable = false;
                     $scope.blogs = [];
                 }
-
+                $scope.showProgressBar = false;
             });
         };
 
@@ -149,9 +157,11 @@
                 if (response.data.statuscode === 200) {
                     $scope.blogs = response.data.data.payload.data;
                     $scope.isBlogsAvailable = true;
+                    $scope.showProgressBar = false;
                 } else {
                     $scope.isBlogsAvailable = false;
                     $scope.blogs = [];
+                    $scope.showProgressBar = false;
                 }
 
             });

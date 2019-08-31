@@ -55,6 +55,12 @@
                     <button class="w3-button w3-block w3-green w3-section w3-padding" ng-click="login()"
                       ng-disabled="loginForm.$invalid">Login</button>
                   </div>
+
+                  <!--Progress bar-->
+                  <div class="w3-modal" style="display: block;text-align: center;" ng-if="showProgressBar">
+                    <img src="/assets/images/progress.gif" width="100px" />
+                  </div>
+
                 </form>
               </div>
           </li>
@@ -189,6 +195,12 @@
         </article>
       </div>
       <!--End Main Content-->
+
+      <!--Progress bar-->
+      <div class="w3-modal" style="display: block;text-align: center;" ng-if="showProgressBar">
+        <img src="/assets/images/progress.gif" width="100px" />
+      </div>
+
       <!--Start side bar-->
       <div id="sidebar" class="four columns">
         <div class="widget widget_search">

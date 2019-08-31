@@ -7,7 +7,7 @@ const logger = require('../common/log');
 const response = require('../common/response');
 const elasticsearch = require('elasticsearch');
 
-const host = process.env.elasitcHost || '6fe9844970424bf4b956708763171ef5.us-east-1.aws.found.io';
+const host = process.env.ELASTIC_HOST || '6fe9844970424bf4b956708763171ef5.us-east-1.aws.found.io';
 const port = process.env.ELASTIC_PORT || 9243;
 const username = process.env.ELASTIC_USER || 'elastic';
 const password = process.env.ELASTIC_PASSWORD || 'rcuKCjRHpKZHERJcsq0cgd0W';

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --watch src src/index.js",
+    "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kabil",
@@ -17,10 +18,10 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
-    "mongoose": "^5.4.22"
+    "mongoose": "^5.4.22",
+    "dotenv": "^7.0.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.10",
-    "dotenv": "^7.0.0"
+    "nodemon": "^1.18.10"
   }
 }
